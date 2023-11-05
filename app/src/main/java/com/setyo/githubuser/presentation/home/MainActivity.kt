@@ -81,8 +81,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showData(username: String) {
         mainViewModel.getListUser(username).observe(this) { users ->
-            if (users != null) {
-                when (users) {
+            users?.let {
+                when (it) {
                     is Resource.Loading -> {
                         showLoading(true)
                         showEmpty(false)
@@ -91,18 +91,19 @@ class MainActivity : AppCompatActivity() {
 
                     is Resource.Success -> {
                         showLoading(false)
-                        showToast(username)
                         if (users.data.isNullOrEmpty()) {
-
+                            showEmpty(true)
                         } else {
+                            showEmpty(false)
+                            showToast(username)
                             adapter.submitList(users.data)
                             adapter.onItemClick = { selectedData ->
                                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                                 intent.putExtra(DetailActivity.EXTRA_USER, selectedData.login)
                                 startActivity(intent)
                             }
-                            showError(false)
                         }
+                        showError(false)
                     }
 
                     is Resource.Error -> {
@@ -110,8 +111,6 @@ class MainActivity : AppCompatActivity() {
                         showEmpty(false)
                         showError(true)
                     }
-
-                    else -> {}
                 }
             }
         }
@@ -120,10 +119,10 @@ class MainActivity : AppCompatActivity() {
     private fun showRecyclerView() {
         adapter = ListUsersAdapter()
 
-        binding.apply {
-            rvGithubUser.layoutManager = LinearLayoutManager(this@MainActivity)
-            rvGithubUser.setHasFixedSize(true)
-            rvGithubUser.adapter = adapter
+        binding.rvGithubUser.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            setHasFixedSize(true)
+            adapter = this@MainActivity.adapter
         }
     }
 
@@ -131,22 +130,19 @@ class MainActivity : AppCompatActivity() {
         binding.progressBar.visibility = if (state) View.VISIBLE else View.GONE
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+    }
+
     private fun showEmpty(state: Boolean) {
         binding.tvState.visibility = if (state) View.VISIBLE else View.GONE
         binding.tvState.text = getString(R.string.empty_data)
     }
 
-    private fun showError(isError: Boolean) {
-        if(isError) {
-            binding.tvState.visibility = View.VISIBLE
-        } else {
-            binding.tvState.visibility = View.GONE
-        }
-
+    private fun showError(state: Boolean) {
+        binding.tvState.visibility = if (state) View.VISIBLE else View.GONE
         binding.tvState.text = getString(R.string.error)
     }
-
-    private fun showToast(message: String) = Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
 
 
     companion object {

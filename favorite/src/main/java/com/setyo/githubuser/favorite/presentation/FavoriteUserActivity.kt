@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.setyo.githubuser.R
 import com.setyo.githubuser.core.ui.ListUsersAdapter
 import com.setyo.githubuser.favorite.databinding.ActivityFavoriteUserBinding
 import com.setyo.githubuser.favorite.di.favoriteModule
@@ -24,7 +25,7 @@ class FavoriteUserActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.apply {
-            title = getString(com.setyo.githubuser.R.string.title_favorite)
+            title = getString(R.string.title_favorite)
             setDisplayHomeAsUpEnabled(true)
         }
 
@@ -35,14 +36,14 @@ class FavoriteUserActivity : AppCompatActivity() {
     }
 
     private fun showFavoriteData() {
-        favoriteUserViewModel.getAllFavoriteUser().observe(this) { users ->
-            if (users.isNullOrEmpty()) {
+        favoriteUserViewModel.getAllFavoriteUser().observe(this) {
+            if (it.isNullOrEmpty()) {
                 adapter.submitList(null)
-                stateEmpty(true)
+                showEmpty(true)
                 adapter.submitList(null)
             } else {
-                stateEmpty(false)
-                adapter.submitList(users)
+                showEmpty(false)
+                adapter.submitList(it)
                 adapter.onItemClick = { selectedData ->
                     val intent = Intent(this, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_USER, selectedData.login)
@@ -55,21 +56,16 @@ class FavoriteUserActivity : AppCompatActivity() {
     private fun showRecyclerView() {
         adapter= ListUsersAdapter()
 
-        binding.apply {
-            rvGithubFavorite.layoutManager = LinearLayoutManager(this@FavoriteUserActivity)
-            rvGithubFavorite.setHasFixedSize(true)
-            rvGithubFavorite.adapter = adapter
+        binding.rvGithubFavorite.apply {
+            layoutManager = LinearLayoutManager(this@FavoriteUserActivity)
+            setHasFixedSize(true)
+            adapter = this@FavoriteUserActivity.adapter
         }
     }
 
-    private fun stateEmpty(isEmpty: Boolean) {
-        if(isEmpty) {
-            binding.tvState.visibility = View.VISIBLE
-        } else {
-            binding.tvState.visibility = View.GONE
-        }
-
-        binding.tvState.text = getString(com.setyo.githubuser.R.string.empty_data)
+    private fun showEmpty(state: Boolean) {
+        binding.tvState.visibility = if (state) View.VISIBLE else View.GONE
+        binding.tvState.text = getString(R.string.empty_data)
     }
 
     override fun onSupportNavigateUp(): Boolean {

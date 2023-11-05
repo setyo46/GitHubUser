@@ -55,75 +55,66 @@ class FollowFragment : Fragment() {
     }
 
     private fun showData(user: Resource<List<User>>?) {
-            if (user != null) {
-                when (user) {
-                    is Resource.Loading -> {
-                        showLoading(true)
-                        stateEmpty(false)
-                        stateError(false)
-                    }
+        user?.let {
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                    showEmpty(false)
+                    showError(false)
+                }
 
-                    is Resource.Success -> {
-                        showLoading(false)
-                        if (user.data.isNullOrEmpty()) {
-                            stateEmpty(true)
-                        } else {
-                            stateEmpty(false)
-                            adapter.submitList(user.data)
-                            adapter.onItemClick = { selectedData ->
-                                val intent = Intent(requireActivity(), DetailActivity::class.java)
-                                intent.putExtra(DetailActivity.EXTRA_USER, selectedData.login)
-                                startActivity(intent)
-                            }
-                            stateError(false)
+                is Resource.Success -> {
+                    showLoading(false)
+                    if (it.data.isNullOrEmpty()) {
+                        showEmpty(true)
+                    } else {
+                        showEmpty(false)
+                        adapter.submitList(it.data)
+                        adapter.onItemClick = { selectedData ->
+                            val intent = Intent(requireActivity(), DetailActivity::class.java)
+                            intent.putExtra(DetailActivity.EXTRA_USER, selectedData.login)
+                            startActivity(intent)
                         }
+                        showError(false)
                     }
+                }
 
-                    is Resource.Error -> {
-                        showLoading(false)
-                        stateEmpty(false)
-                        stateError(true)
-                    }
+                is Resource.Error -> {
+                    showLoading(false)
+                    showEmpty(false)
+                    showError(true)
                 }
             }
         }
-
+    }
 
     private fun showRecyclerView() {
         adapter = ListUsersAdapter()
 
-        binding.apply {
-            rvFollowerFollowing.layoutManager = LinearLayoutManager(requireContext())
-            rvFollowerFollowing.setHasFixedSize(true)
-            rvFollowerFollowing.adapter = adapter
+        binding.rvFollowerFollowing.apply {
+           layoutManager = LinearLayoutManager(requireContext())
+           setHasFixedSize(true)
+           adapter = this@FollowFragment.adapter
         }
     }
 
-    private fun stateEmpty(isEmpty: Boolean) {
-        if(isEmpty) {
-            binding.tvState.visibility = View.VISIBLE
-        } else {
-            binding.tvState.visibility = View.GONE
-        }
+    private fun showLoading(state: Boolean) {
+        binding.progressBar.visibility = if (state) View.VISIBLE else View.GONE
+    }
 
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showEmpty(state: Boolean) {
+        binding.tvState.visibility = if (state) View.VISIBLE else View.GONE
         binding.tvState.text = getString(R.string.empty_data)
     }
 
-    private fun stateError(isError: Boolean) {
-        if(isError) {
-            binding.tvState.visibility = View.VISIBLE
-        } else {
-            binding.tvState.visibility = View.GONE
-        }
-
+    private fun showError(state: Boolean) {
+        binding.tvState.visibility = if (state) View.VISIBLE else View.GONE
         binding.tvState.text = getString(R.string.error)
     }
-
-    private fun showLoading(state: Boolean) { binding.progressBar.visibility =
-        if (state) View.VISIBLE else View.GONE }
-
-    private fun showToast(message: String) =
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 
     override fun onDestroyView() {
         super.onDestroyView()
