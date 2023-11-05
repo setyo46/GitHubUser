@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GitHubUser</string>
+    <string name="username">Username</string>
+    <string name="ivAvatar">avatar</string>
+    <string name="search_hint">Cari user Github disini</string>
+    <string name="search">search</string>
+    <string name="empty_data">Empty Data</string>
+    <string name="name">Nama Lengkap</string>
+    <string name="error">There is an error</string>
+    <string name="count">0</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="following_tabs">Following tabs</string>
+
+    <string name="delete_fav">Success Deleted Users </string>
+    <string name="add_fav">Success Added Users </string>
+
+    <string name="title_detail">Detail Github User</string>
+    <string name="title_setting">Setting Dark Mode</string>
+    <string name="title_favorite">Favorite Github User</string>
+
+    <string name="favorite">Favorite</string>
+    <string name="setting">Setting</string>
+    <string name="dark_mode">Dark Mode</string>
+
+
+</resources>

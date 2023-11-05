@@ -1,0 +1,60 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
+}
+
+apply from: '../shared_dependencies.gradle'
+
+android {
+    namespace 'com.setyo.githubuser.core'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 26
+
+        buildConfigField("String", "GIHUB_TOKEN", '"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"')
+        buildConfigField("String", "API_URL", '"https://api.github.com/"')
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_version"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-ktx:$room_version"
+
+    implementation "net.zetetic:android-database-sqlcipher:$sqlcipher_version"
+    implementation "androidx.sqlite:sqlite-ktx:$sqlite_version"
+
+}

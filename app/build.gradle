@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+}
+
+apply from: '../shared_dependencies.gradle'
+
+android {
+    namespace 'com.setyo.githubuser'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.setyo.githubuser"
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField("String", "GIHUB_TOKEN", '"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"')
+        buildConfigField("String", "API_URL", '"https://api.github.com/"')
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dynamicFeatures = [':favorite']
+}
+
+dependencies {
+
+    implementation project(":core")
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
+}
