@@ -63,18 +63,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.favorite -> {
-                val intent = Intent(this@MainActivity,
-                    Class.forName(
-                            "com.setyo.githubuser.favorite.presentation.FavoriteUserActivity"
-                        )
+                val intent = Intent(this@MainActivity, Class.forName(
+                    "com.setyo.githubuser.favorite.presentation.FavoriteUserActivity"
+                    )
                 )
                 startActivity(intent)
             }
-//            R.id.setting -> {
-//                val intent = Intent(this, SettingActivity::class.java)
-//                startActivity(intent)
-//                true
-//            }
         }
         return super.onOptionsItemSelected(item)
     }
