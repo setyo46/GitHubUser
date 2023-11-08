@@ -17,7 +17,6 @@
         tools:listitem="@layout/item_row_user" />
 
     <TextView
-        android:id="@+id/testUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"

@@ -4,6 +4,7 @@ import android.util.Log
 import com.setyo.githubuser.core.data.source.remote.network.ApiResponse
 import com.setyo.githubuser.core.data.source.remote.network.ApiService
 import com.setyo.githubuser.core.data.source.remote.response.DetailUserResponse
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,7 +12,8 @@ import kotlinx.coroutines.flow.flowOn
 import java.lang.Exception
 
 class RemoteDataSource (
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
 
     suspend fun getListUser(username: String): Flow<ApiResponse<List<DetailUserResponse>>> {
@@ -28,7 +30,7 @@ class RemoteDataSource (
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(defaultDispatcher)
     }
 
     suspend fun getDetailUser(username: String): Flow<ApiResponse<DetailUserResponse>> {
@@ -40,7 +42,7 @@ class RemoteDataSource (
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(defaultDispatcher)
     }
 
     suspend fun getFollowerUser(username: String): Flow<ApiResponse<List<DetailUserResponse>>> {
@@ -57,7 +59,7 @@ class RemoteDataSource (
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(defaultDispatcher)
     }
 
     suspend fun getFollowingUser(username: String): Flow<ApiResponse<List<DetailUserResponse>>> {
@@ -74,7 +76,7 @@ class RemoteDataSource (
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
             }
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(defaultDispatcher)
     }
 
 }

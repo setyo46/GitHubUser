@@ -20,4 +20,6 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin_version"
     implementation "io.insert-koin:koin-core:$koin_version"
 
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
+
 }

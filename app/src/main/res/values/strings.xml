@@ -16,12 +16,13 @@
     <string name="add_fav">Success Added Users </string>
 
     <string name="title_detail">Detail Github User</string>
-    <string name="title_setting">Setting Dark Mode</string>
     <string name="title_favorite">Favorite Github User</string>
 
     <string name="favorite">Favorite</string>
-    <string name="setting">Setting</string>
-    <string name="dark_mode">Dark Mode</string>
+
+    <string name="icon_add_favorite">Icon Add Favorite</string>
+
+    <string name="id_username">setyo46</string>
 
 
 </resources>

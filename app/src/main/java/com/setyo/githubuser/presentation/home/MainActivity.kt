@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: ListUsersAdapter
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModel()
-    private val githubUser = "setyo"
+    private val githubUser = getString(R.string.id_username)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
