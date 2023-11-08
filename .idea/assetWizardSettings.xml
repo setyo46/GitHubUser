@@ -336,9 +336,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="baseline_favorite_border_24" />
-                            <entry key="sourceFile" value="D:\BANGKIT\dicoding-android-fundamental\GitHubUser\asset\github-mark.svg" />
+                            <entry key="outputName" value="github_mark" />
+                            <entry key="sourceFile" value="D:\BANGKIT\asset\github-mark-c791e9551fe4\github-mark\github-mark.svg" />
                           </map>
                         </option>
                       </PersistentState>
